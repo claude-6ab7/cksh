@@ -1,7 +1,13 @@
 /*
  * cksh.c --- sortable stat and SHAKE256 listing for files named in args or stdin
- * rev 6ab7e734 20260926 orig 6305e87b ckstat ckstatsum cks
  * (c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with attribution.
+ *
+ * rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+ *     C port, built-in SHAKE256; openssl<3 xoflen fallback (bash); -k/-r
+ *     value sort; --help manual; status bitmask; chkerr/chkwrn diagnostics
+ * rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+ * org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022
+ *     ckstat ckstatsum cks
  *
  * Output: inode links shake256 size mdate filename, hex in aligned columns.
  * Byte-identical output and exit status to the bash function cksh.fn.bash.
@@ -14,6 +20,10 @@
  *
  * Records keep their raw values; -k compares by value, so a value wider than
  * its column still sorts correctly.
+ *
+ * Changes from 68e9ff40 (shared with the bash function): non-regular nodes
+ * get a zero-filled hash, fifos are warned and never opened, per-file
+ * failures warn and continue, and the exit status is a bitmask (see --help).
  */
 
 #define _POSIX_C_SOURCE 200809L
@@ -547,6 +557,26 @@ static const char *const manual[] = {
 "NOTES\n"
 "  Names are read one per line; a name containing a newline cannot be\n"
 "  passed on stdin.\n"
+"\n"
+"HISTORY\n"
+"  rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026\n"
+"      C port with built-in SHAKE256; openssl<3 xoflen fallback in the\n"
+"      bash function; -k/-r value sort; --help manual; status bitmask;\n"
+"      chkerr/chkwrn diagnostics; bash helpers isolated in a subshell.\n"
+"      Changes from 68e9ff40: non-regular nodes hash as zeros (were\n"
+"      blank); fifos are warned and never opened (blocked the run);\n"
+"      per-file errors warn and continue (aborted the run); exit status\n"
+"      is a bitmask (was 0 or 1); ls -F indicators come from lstat, so a\n"
+"      name ending in * or % keeps it (was stripped); stdin names are\n"
+"      read raw, backslashes kept; numbers formatted by printf, not awk.\n"
+"  rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025\n"
+"  org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022\n"
+"      ckstat ckstatsum cks\n"
+"\n"
+,
+"COPYRIGHT\n"
+"  (c) 2017-2026 George Georgalis <george@iuxta.com>\n"
+"  Unlimited use with attribution.\n"
 };
 
 static void

@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 
 cksh () ( # return sortable stat and hash data for args OR stdin file list
-  # rev 6ab7e734 20260926 orig 6305e87b ckstat ckstatsum cks
+  # rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+  #     openssl<3 xoflen fallback, -k/-r value sort, --help, status bitmask,
+  #     chkerr/chkwrn diagnostics, subshell namespace; companion C port cksh.c
+  # rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+  # org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022 ckstat ckstatsum cks
   # (c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with attribution.
   # subshell body: helpers below stay out of the caller's namespace
   stderr() {  [ "$*" ] && echo "$*" 1>&2 || true ;}                      #:> args to stderr, or noop if null
@@ -122,6 +126,25 @@ eof
     NOTES
       Names are read one per line; a name containing a newline cannot be
       passed on stdin.
+
+    HISTORY
+      rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+          C port with built-in SHAKE256; openssl<3 xoflen fallback in the
+          bash function; -k/-r value sort; --help manual; status bitmask;
+          chkerr/chkwrn diagnostics; bash helpers isolated in a subshell.
+          Changes from 68e9ff40: non-regular nodes hash as zeros (were
+          blank); fifos are warned and never opened (blocked the run);
+          per-file errors warn and continue (aborted the run); exit status
+          is a bitmask (was 0 or 1); ls -F indicators come from lstat, so a
+          name ending in * or % keeps it (was stripped); stdin names are
+          read raw, backslashes kept; numbers formatted by printf, not awk.
+      rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+      org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022
+          ckstat ckstatsum cks
+
+    COPYRIGHT
+      (c) 2017-2026 George Georgalis <george@iuxta.com>
+      Unlimited use with attribution.
 eof
     }
   # one key line: fixed width decimal values (0 when omitted), hash, name+indicator;

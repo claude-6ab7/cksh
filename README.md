@@ -132,3 +132,36 @@ accumulate while the run continues.
   ASan and UBSan, and as root and non-root. The makefile avoids every
   construct bmake rejects, but it has not yet been run under bmake, on
   NetBSD, or on Darwin.
+
+## History
+
+```
+rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+    C port with built-in SHAKE256; openssl<3 xoflen fallback in the bash
+    function; -k/-r value sort; --help manual; status bitmask;
+    chkerr/chkwrn diagnostics; bash helpers isolated in a subshell
+rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022
+    ckstat ckstatsum cks
+```
+
+Changes in 6ab7e734 from bash rev 68e9ff40:
+
+- Directories and other nodes that are not hashed show a zero-filled hash;
+  previously the column was blank-padded.
+- Fifos get a warning and are never opened; previously the run blocked on
+  them.
+- Per-file errors warn and the run continues; previously the first error
+  aborted the run.
+- The exit status is a bitmask instead of 0 or 1.
+- `ls -F` indicators come from `lstat`, so a file whose name ends in `*` or
+  `%` keeps that character; previously `sed` stripped it.
+- Names on stdin are read raw (`read -r`), so backslashes survive.
+- Numbers are formatted by `printf` in the shell rather than by `awk`, which
+  avoids `awk`'s double-precision limit on large sizes and inodes.
+- Sorting (`-k`, `-r`) is built in, replacing `| sort -k5`.
+
+## Copyright
+
+(c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with
+attribution.

@@ -1,7 +1,11 @@
 #!/bin/sh
 # test.sh --- regression suite for cksh (C binary) and cksh.fn.bash (bash function)
-# rev 6ab7e734 20260926 orig 6305e87b; one case per promised behavior, run via make test
 # (c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with attribution.
+#
+# rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+#     one case per promised behavior, run via make test
+# rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+# org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022 ckstat ckstatsum cks
 #
 # POSIX sh; bash parity and openssl cases skip when bash or openssl shake256 is absent.
 
@@ -134,7 +138,7 @@ eq "stdin" "`c t/a t/e`" "`printf 't/a\n\nt/e' | c`"
 # --- help: -h short, --help manual, C and bash identical ---
 eq "-h rc" 0 "`$B -h >/dev/null; echo $?`"
 eq "--help rc" 0 "`$B --help >/dev/null; echo $?`"
-eq "--help sections" 9 "`$B --help | grep -c '^[A-Z][A-Z ]*$'`"
+eq "--help sections" 11 "`$B --help | grep -c '^[A-Z][A-Z ]*$'`"
 
 # --- bash function parity: byte-identical output and status ---
 if [ -n "$have_bash" ] && [ -n "$have_ssl" ]; then

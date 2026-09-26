@@ -1,6 +1,10 @@
 # makefile --- build, test and install cksh
-# rev 6ab7e734 20260926 orig 6305e87b
 # (c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with attribution.
+#
+# rev 6ab7e734 20260926 083932 PDT Sat 08:39 AM 26 Sep 2026
+#     C build, test and install for the cksh port
+# rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+# org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022 ckstat ckstatsum cks
 #
 # Portable across GNU make, bmake (NetBSD, pkgsrc) and Apple make: no ifeq,
 # no $(shell), no ?=; platform branching happens inside recipe shells.
