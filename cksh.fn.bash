@@ -5,6 +5,11 @@ cksh () ( # return sortable stat and hash data for args OR stdin file list
   #     openssl<3 xoflen fallback, -k/-r value sort, --help, status bitmask,
   #     chkerr/chkwrn diagnostics, subshell namespace; companion C port cksh.c
   # rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+  #     -0..-5, bare -n and -x (getopts :), -n and -x range validation
+  # rev 68e20bca 20251004 231018 PDT Sat 11:10 PM 04 Oct 2025
+  #     renamed cksh, getopts -n -x -h; ckstat and ckstatsum retired
+  # rev 677c9c44 20250106 191516 PST Mon 07:15 PM 06 Jan 2025
+  #     chksthash, from ckstatsum: shake256 -xoflen 3 hash column
   # org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022 ckstat ckstatsum cks
   # (c) 2017-2026 George Georgalis <george@iuxta.com> Unlimited use with attribution.
   # subshell body: helpers below stay out of the caller's namespace
@@ -139,6 +144,11 @@ eof
           name ending in * or % keeps it (was stripped); stdin names are
           read raw, backslashes kept; numbers formatted by printf, not awk.
       rev 68e9ff40 20251010 235456 PDT Fri 11:54 PM 10 Oct 2025
+          -0..-5, bare -n and -x (getopts :), -n and -x range validation
+      rev 68e20bca 20251004 231018 PDT Sat 11:10 PM 04 Oct 2025
+          renamed cksh, getopts -n -x -h; ckstat and ckstatsum retired
+      rev 677c9c44 20250106 191516 PST Mon 07:15 PM 06 Jan 2025
+          chksthash, from ckstatsum: shake256 -xoflen 3 hash column
       org 6305e87b 20220824 015939 PDT Wed 01:59 AM 24 Aug 2022
           ckstat ckstatsum cks
 
